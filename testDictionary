@@ -1,0 +1,23 @@
+import java.io.*;
+import javax.swing.*;
+public class testDictionary extends newDictionary {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		testDictionary test = new testDictionary();
+		test.readFile("/home/jaime/fileTest.xml");
+		test.saveLines += "amorrr!" ;
+		JOptionPane.showMessageDialog(null, test.saveLines);
+		test.initTape();
+		test.prepareTape();
+		
+		
+		
+		
+	}
+
+}
