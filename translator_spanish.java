@@ -1,58 +1,112 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 
 public class translator_spanish {
 
-	public static int position = 0;
+	public static char character; // caracter temporal usado para extraer los
+									// caracteres de las palabras
+	public static String temporal = ""; // string tempral usado para agrupar los
+										// caracteres de las palabras contenidas
+										// en el dicionario
+	public static String word = ""; // string temporal usado para contener todos
+									// los caracteres que contiene una palabra
+									// del diccionario
+	public static int posstring = 0; // entero usado para indicar la posicion de
+										// cada palabra del diccionario en los
+										// arreglos de cadenas para las palabras
+										// en ingles y espan~ol
+
+	public static char lastc; // character que indica el ultimo caracter de la
+								// ultima palabra para extraer las palabras de
+								// la frase a traducir
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String spanish = "el perro come queso ";
+		String spanish = "el perro come hueso trabajar empleo hola queso debian Nicaragua ultimo ultimo"
+				+ " debian perro hola queso ";
 
-		String[] englishWords;
-		String[] spanishWords;
+		String translation = ""; // variable que contendra las palabras
+									// traducidas
 
-		String[] phrasewords;
+		String[] englishwords; // arreglo de cadenas para las palabras en ingles
+		String[] spanishwords; // arreglo de cadenas para las palabras en
+								// epan~ol
 
-		int num = 0;
+		String[] phrasewords; // arreglo que contiene las palabras a traducir
 
-		num = countWords(num, spanish);
+		int num = 0; // numero que indica la cantidad de palabras contenidas en
+						// la frase a traducir
 
-		phrasewords = new String[num];
+		num = countwords(num, spanish); // funcion que calcula el numero de
+										// palabras que posee la frase a
+										// traducir
 
-		int wordsDictionary = 0;
+		phrasewords = new String[num]; // funcio que extrae todas las palabras
+										// que contiene la frase en cadenas de
+										// carateres de tipo string
 
-		wordsDictionary = dictionaryWords(wordsDictionary);
+		int wordsdictionary = 0; // entero que contiene la cantidad de palabras
+									// que posee el diccionario
 
-		englishWords = new String[wordsDictionary];
-		spanishWords = new String[wordsDictionary];
+		wordsdictionary = dictionarywords(wordsdictionary); // funcion para
+															// extraer la
+															// cantidad de
+															// lineas(palabras),
+															// que posee el
+															// diccionario
 
-		findDictionaryWords(englishWords, spanishWords);
+		englishwords = new String[wordsdictionary]; // inicializacion del
+													// taman~o de los arreglos
+													// que contendran las
+													// palabras del diccionario
+		spanishwords = new String[wordsdictionary];
 
-		putWordsPhrase(phrasewords, spanish);
+		findDictionarywords(englishwords, spanishwords); // funcion que busca y
+															// extrae las
+															// palabras
+															// contenidas en el
+															// diccionario
 
-		// System.out.print(num + "\n" + wordsDictionary) ;
-		String english = "";
+		putwordsphrase(phrasewords, spanish); // funcion que extrae todas las
+												// palabras de la frase a
+												// traducir y la coloca en el
+												// arreglo phrasewords
 
-		english = translateWords(phrasewords, englishWords, spanishWords,
-				english);
+		/*
+		 * impresiones usadas para la verificacion del contenido de los arreglos
+		 * que contienen palabras
+		 * 
+		 * System.out.print(num + "\n" + wordsDictionary) ;
+		 * System.out.print("\n" + englishwords[englishwords.length - 1] + "\t"
+		 * + spanishwords[englishwords.length - 1] + "\n");
+		 * System.out.print("\n" + englishwords[5] + "\t" + spanishwords[5]);
+		 */
+		translatewords(phrasewords, englishwords, spanishwords, translation); // funcion
+																				// para
+																				// traducir
+																				// las
+																				// palabras
+																				// introducidas
+																				// en
+																				// la
+																				// frase
+																				// en
+																				// espan~ol
+																				// al
+																				// ingles
 
-		/** System.out.print("\n" + englishWords[3] + "\t" + spanishWords[3]) ; **/
-
-		System.out.print("\nTraducion:\n" + english);
-
+		// System.out.print("\n" + "Traducion:" + translation);
 	}
 
 	/** void main **/
 
-	public static int countWords(int c, String phrase) {
+	public static int countwords(int c, String phrase) {
 		/** countWords **/
 		char cph;
-		char lastc;
 
 		lastc = phrase.charAt(phrase.length() - 1);
 
@@ -76,7 +130,7 @@ public class translator_spanish {
 
 	/** countWords **/
 
-	public static int dictionaryWords(int sumLines) {
+	public static int dictionarywords(int sumLines) {
 
 		String fileLines = "";
 
@@ -93,6 +147,7 @@ public class translator_spanish {
 			}
 
 		} catch (Exception e) {
+			System.out.print("\nno funciona 1");
 		}
 
 		return sumLines;
@@ -100,7 +155,14 @@ public class translator_spanish {
 
 	/** **/
 
-	public static void putWordsPhrase(String[] phrasewords, String phrase) {
+	/**
+	 * funcion usada para extraer las palabras de la frase en espan~ol y
+	 * colocarla en el arreglo de tipo string
+	 * 
+	 * @param phrasewords
+	 * @param phrase
+	 */
+	public static void putwordsphrase(String[] phrasewords, String phrase) {
 		/** putWordsPhrase **/
 
 		char characterphrase;
@@ -115,7 +177,7 @@ public class translator_spanish {
 				/** if **/
 				tmp = "" + characterphrase;
 				words += tmp;
-				tmp = " ";
+				tmp = "";
 			}/** if **/
 			else {
 				/** else **/
@@ -129,6 +191,10 @@ public class translator_spanish {
 
 		}
 		/** for **/
+		/**
+		 * si el ultimo caracter es diferente de un espacio en blanco, indica
+		 * que es una palabra y es introducida en el arreglo
+		 */
 
 		char ultimatechar = phrase.charAt(phrase.length() - 1);
 		if (ultimatechar != ' ') {
@@ -140,9 +206,20 @@ public class translator_spanish {
 
 	/** putWordsPhrase **/
 
-	public static String findDictionaryWords(String[] englishWords,
-			String[] spanishWords) {
-		/** putDictionaryWords **/
+	/** putDictionaryWords **/
+
+	/**
+	 * funcion utilizada para llamar a dos funciones encargadas de extraer las
+	 * palabras en ingles y espan~ol de cada linea leida del diccionario
+	 * 
+	 * @param englishwords
+	 * @param spanishwords
+	 * @return
+	 */
+
+	public static String findDictionarywords(String[] englishwords,
+			String[] spanishwords) {
+
 		String translation = "";
 		String linefile = "";
 		int pos;
@@ -152,19 +229,21 @@ public class translator_spanish {
 			BufferedReader br = new BufferedReader(rf);
 
 			linefile = br.readLine();
-			pos = 0;
+			posstring = 0;
 
 			while (linefile != null) {
 				/** while **/
 
-				extractwords(englishWords, spanishWords, linefile, pos);
-				pos += 1;
+				extractwordsenglish(englishwords, linefile, posstring);
+				extractwordspanish(spanishwords, linefile, posstring);
 				linefile = br.readLine();
+				posstring += 1;
 
 			}
 			/** while **/
 
-		} catch (IOException e) {
+		} catch (Exception e) {
+			System.out.print("\nno funciona 2" + "\n");
 		}
 
 		return translation;
@@ -172,12 +251,18 @@ public class translator_spanish {
 	}
 
 	/** putDictionaryWords **/
+	/**
+	 * funcion extrae las palabras en ingles del diccionario ej: hueso bone
+	 * 
+	 * @param english
+	 * @param line
+	 * @param posstring
+	 */
 
-	public static void extractwords(String[] array, String[] arraytwo,
-			String line, int posstring) {
-		char character;
-		String temporal = " ";
-		String word = " ";
+	public static void extractwordsenglish(String[] english, String line,
+			int posstring) {
+		temporal = "";
+		word = "";
 
 		for (int cont = 0; cont < line.length(); cont++) {
 			/** for **/
@@ -185,61 +270,145 @@ public class translator_spanish {
 
 			if (character != ' ') {
 				/** if **/
-				temporal = "" + character;
+				// temporal = "" + character;
+				temporal = String.valueOf(character);
 				word += temporal;
-				temporal = " ";
 			}/** if **/
 
 			else {
 				/** else **/
-				array[posstring] = word;
+				english[posstring] = word;
 				word = "";
+
 			}
 			/** else **/
 
 		}
 		/** for **/
-
-		char lastcharacter = line.charAt(line.length() - 1);
-
-		if (lastcharacter != ' ') {
-			arraytwo[posstring] = word;
-		}
-
 	}
 
-	/** extractWords **/
+	/** extractwordsenglish **/
 
-	public static String translateWords(String[] words, String[] spanishwords,
-			String[] englishwords, String translation) {
-		String tmpword = "";
-		for (int pos = 0; pos < words.length; pos++) {
-			/** translateWords **/
+	/** extractwordspanish **/
 
-			tmpword = words[pos];
+	/**
+	 * funcion que extrae las palabras del diccionario en espan~ol ej: el the
+	 * 
+	 * @param spanish
+	 * @param line
+	 * @param posstring
+	 */
+	public static void extractwordspanish(String[] spanish, String line,
+			int posstring) {
 
-			for (int cont = 0; cont < spanishwords.length; cont++) {
-				/** for **/
-				tmpword = spanishwords[pos];
+		temporal = "";
+		word = "";
 
-				if (tmpword == spanishwords[cont]) {
-					/** if **/
-					translation += englishwords[cont] + " ";
+		for (int cc = line.length() - 1; cc > 0; cc--) {
 
-				}/** if **/
-				else {
-					tmpword = "";
-				}
+			character = line.charAt(cc);
+
+			if (character != ' ') {
+				// temporal = "" + character;
+				temporal = String.valueOf(character);
+				word += temporal;
+				temporal = "";
 
 			}
-			/** for **/
+
+			else {
+				/**
+				 * funcion encontrada en internet que invertia los caracteres de
+				 * una palabra
+				 * 
+				 * 
+				 * for (int x=sCadena.length()-1;x>=0;x--) sCadenaInvertida =
+				 * sCadenaInvertida + sCadena.charAt(x);
+				 * 
+				 * temporal = ""; int lon = word.length()-1; for(int pos = lon;
+				 * pos >= 0; pos--){ temporal = temporal + word.charAt(pos);
+				 * 
+				 * }
+				 */
+
+				/**
+				 * funcion que ordena los caracteres de derecha a izquierda que
+				 * durante la extraccion del diccionario quedaron al reves
+				 * 
+				 * ej: cheese -> eseehc
+				 */
+				for (int pos = word.length() - 1; pos >= 0; pos--) {
+					temporal += word.charAt(pos);
+				}
+
+				// spanish[posstring] = word;
+				spanish[posstring] = temporal;
+				word = "";
+
+			}
 
 		}
 		/** for **/
-		return translation;
+
+		/** extractwordsspanish **/
+	}
+
+	/**
+	 * funcion que traduce las palabras en espan~ol a su equivalente
+	 * correspondiente en ingles segun la posicion de la palabra encontrada en
+	 * espan~ol
+	 * 
+	 * @param phraseswords
+	 * @param spanish
+	 * @param english
+	 * @param translation
+	 */
+
+	public static void translatewords(String[] phraseswords, String[] spanish,
+			String[] english, String translation) {
+
+		String palabra;
+		String comparar;
+
+		/**
+		 * 
+		 * funciones para verificar si las palabras extraidas en el diccionario
+		 * son correctas
+		 * 
+		 * for (int contpalabra = 0; contpalabra < phraseswords.length;
+		 * contpalabra++) { for (int cont = 0; cont < spanish.length; cont++) {
+		 * if (phraseswords[contpalabra].equals(spanish[cont])) { translation +=
+		 * english[cont] + " ";
+		 * 
+		 * 
+		 * for (int cont = 0; cont < english.length; cont++) {
+		 * System.out.print(spanish[cont] + " ");
+		 * 
+		 * 
+		 * } System.out.print("\n");
+		 * 
+		 * for (int cont = 0; cont < english.length; cont++) {
+		 * System.out.print(english[cont] + " ");
+		 * 
+		 * 
+		 * } System.out.print("\n");
+		 * 
+		 * for (int cont = 0; cont < phraseswords.length; cont++) {
+		 * System.out.print(phraseswords[cont] + " "); }
+		 */
+
+		for (int contpalabras = 0; contpalabras < phraseswords.length; contpalabras++) {
+			for (int cont = 0; cont < spanish.length; cont++) {
+				if (phraseswords[contpalabras].equals(spanish[cont])) {
+					translation += english[cont] + " ";
+				}
+
+			}
+		}
+
+		System.out.print("\nTraduccion:\n" + translation);
 
 	}
 	/** translateWords **/
 
 }
-/** translator_spanish **/
