@@ -1,82 +1,102 @@
+package translation.punisher.practice;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class translator_spanish {
+public class spanishtranslation {
 
-	public static char character; // caracter temporal usado para extraer los
-									// caracteres de las palabras
+	public static char character;
+	/** caracter temporal usado para extraer los caracteres de las palabras **/
+
 	public static String temporal = ""; // string tempral usado para agrupar los
-										// caracteres de las palabras contenidas
-										// en el dicionario
-	public static String word = ""; // string temporal usado para contener todos
-									// los caracteres que contiene una palabra
-									// del diccionario
-	public static int posstring = 0; // entero usado para indicar la posicion de
-										// cada palabra del diccionario en los
-										// arreglos de cadenas para las palabras
-										// en ingles y espan~ol
+	/** caracteres de las palabras contenidas en el dicionario **/
 
-	public static char lastc; // character que indica el ultimo caracter de la
-								// ultima palabra para extraer las palabras de
-								// la frase a traducir
+	public static String word = "";
+	/**
+	 * string temporal usado para contener todos los caracteres que contiene una
+	 * palabra del diccionario
+	 **/
+
+	public static int posstring = 0;
+	/**
+	 * entero usado para indicar la posicion de cada palabra del diccionario en
+	 * los arreglos de cadenas para las palabras en ingles y espan~ol
+	 **/
+
+	public static char lastc;
+
+	/**
+	 * character que indica el ultimo caracter de la ultima palabra para extraer
+	 * las palabras de la frase a traducir
+	 **/
 
 	/**
 	 * @param args
-	 */
+	 * */
+
 	public static void main(String[] args) {
 		String spanish = "el perro come hueso trabajar empleo hola queso debian Nicaragua ultimo ultimo"
 				+ " debian perro hola queso ";
 
-		String translation = ""; // variable que contendra las palabras
-									// traducidas
+		String translation = "";
+		/** variable que contendra las palabras traducidas **/
 
-		String[] englishwords; // arreglo de cadenas para las palabras en ingles
-		String[] spanishwords; // arreglo de cadenas para las palabras en
-								// epan~ol
+		String[] englishwords;
+		/** arreglo de cadenas para las palabras en ingles **/
 
-		String[] phrasewords; // arreglo que contiene las palabras a traducir
+		String[] spanishwords;
+		/** arreglo de cadenas para las palabras en epan~ol **/
 
-		int num = 0; // numero que indica la cantidad de palabras contenidas en
-						// la frase a traducir
+		String[] phrasewords;
+		/** arreglo que contiene las palabras a traducir **/
 
-		num = countwords(num, spanish); // funcion que calcula el numero de
-										// palabras que posee la frase a
-										// traducir
+		int num = 0;
+		/**
+		 * numero que indica la cantidad de palabras contenidas en la frase a
+		 * traducir
+		 **/
 
-		phrasewords = new String[num]; // funcio que extrae todas las palabras
-										// que contiene la frase en cadenas de
-										// carateres de tipo string
+		num = countwords(num, spanish);
+		/**
+		 * funcion que calcula el numero de palabras que posee la frase a
+		 * traducir
+		 **/
 
-		int wordsdictionary = 0; // entero que contiene la cantidad de palabras
-									// que posee el diccionario
+		phrasewords = new String[num];
+		/**
+		 * funcion que extrae todas las palabras que contiene la frase en
+		 * cadenas de carateres de tipo string
+		 **/
 
-		wordsdictionary = dictionarywords(wordsdictionary); // funcion para
-															// extraer la
-															// cantidad de
-															// lineas(palabras),
-															// que posee el
-															// diccionario
+		int wordsdictionary = 0;
+		/** entero que contiene la cantidad de palabras que posee el diccionario **/
 
-		englishwords = new String[wordsdictionary]; // inicializacion del
-													// taman~o de los arreglos
-													// que contendran las
-													// palabras del diccionario
+		wordsdictionary = dictionarywords(wordsdictionary);
+		/**
+		 * funcion para extraer la cantidad de lineas(palabras), que posee el
+		 * diccionario
+		 **/
+
+		englishwords = new String[wordsdictionary];
+		/**
+		 * inicializacion del taman~o de los arreglos que contendran las
+		 * palabras del diccionario
+		 **/
+
 		spanishwords = new String[wordsdictionary];
 
-		findDictionarywords(englishwords, spanishwords); // funcion que busca y
-															// extrae las
-															// palabras
-															// contenidas en el
-															// diccionario
+		findDictionarywords(englishwords, spanishwords);
+		/** funcion que busca y extrae las palabras contenidas en el diccionario **/
 
-		putwordsphrase(phrasewords, spanish); // funcion que extrae todas las
-												// palabras de la frase a
-												// traducir y la coloca en el
-												// arreglo phrasewords
+		putwordsphrase(phrasewords, spanish);
+		/**
+		 * funcion que extrae todas las palabras de la frase a traducir y la
+		 * coloca en el arreglo phrasewords
+		 **/
 
-		/*
+		/**
 		 * impresiones usadas para la verificacion del contenido de los arreglos
 		 * que contienen palabras
 		 * 
@@ -84,22 +104,16 @@ public class translator_spanish {
 		 * System.out.print("\n" + englishwords[englishwords.length - 1] + "\t"
 		 * + spanishwords[englishwords.length - 1] + "\n");
 		 * System.out.print("\n" + englishwords[5] + "\t" + spanishwords[5]);
-		 */
-		translatewords(phrasewords, englishwords, spanishwords, translation); // funcion
-																				// para
-																				// traducir
-																				// las
-																				// palabras
-																				// introducidas
-																				// en
-																				// la
-																				// frase
-																				// en
-																				// espan~ol
-																				// al
-																				// ingles
+		 **/
 
-		// System.out.print("\n" + "Traducion:" + translation);
+		translatewords(phrasewords, englishwords, spanishwords, translation);
+		/**
+		 * funcion para traducir las palabras introducidas en la frase en
+		 * espan~ol al ingles
+		 **/
+
+		/** System.out.print("\n" + "Traducion:" + translation); **/
+
 	}
 
 	/** void main **/
@@ -147,7 +161,7 @@ public class translator_spanish {
 			}
 
 		} catch (Exception e) {
-			System.out.print("\nno funciona 1");
+			System.out.print("\nNo se encuentra el fichero\n");
 		}
 
 		return sumLines;
@@ -243,7 +257,7 @@ public class translator_spanish {
 			/** while **/
 
 		} catch (Exception e) {
-			System.out.print("\nno funciona 2" + "\n");
+			System.out.print("\nFichero no encontrado para extraer las palabras del diccionario\n");
 		}
 
 		return translation;
@@ -270,7 +284,8 @@ public class translator_spanish {
 
 			if (character != ' ') {
 				/** if **/
-				// temporal = "" + character;
+				/** temporal = "" + character; **/
+				
 				temporal = String.valueOf(character);
 				word += temporal;
 			}/** if **/
